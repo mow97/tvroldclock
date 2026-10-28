@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ceas Retro TVR Protejat</title>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #000000; font-family: "Fredoka", sans-serif; overflow: hidden; position: relative; user-select: none; -webkit-user-select: none; }
+        .clock { position: relative; width: 750px; height: 750px; display: flex; justify-content: center; align-items: center; }
+        .ticks-container { position: absolute; width: 76%; height: 76%; border-radius: 50%; }
+        .tick { position: absolute; width: 7px; height: 7px; background-color: #ffffff; border-radius: 50%; left: calc(50% - 3.5px); top: 0; transform-origin: 3.5px 285px; }
+        .tick.hour-tick { width: 14px; height: 14px; left: calc(50% - 7px); transform-origin: 7px 285px; }
+        .number { position: absolute; color: #ffffff; font-size: 4.8rem; font-weight: 700; text-align: center; width: 100px; height: 100px; line-height: 100px; }
+        .clock-text { position: absolute; top: 245px; left: 50%; transform: translateX(-50%); color: #ffffff; font-family: "Times New Roman", Times, serif; font-size: 1.4rem; font-weight: bold; letter-spacing: 2px; white-space: nowrap; z-index: 4; }
+        .clock-logo { position: absolute; top: 472px; left: 50%; transform: translateX(-50%); width: 135px; height: auto; z-index: 4; }
+        .center-nut { position: absolute; width: 36px; height: 36px; background-color: #ffffff; border-radius: 50%; z-index: 20; display: flex; justify-content: center; align-items: center; }
+        .center-screw { width: 9px; height: 9px; background-color: #000000; border-radius: 50%; }
+        .hand { position: absolute; background-color: #ffffff; left: 50%; }
+        .hour-hand { width: 18px; height: 232px; bottom: calc(50% - 37px); margin-left: -9px; border-radius: 9px 9px 4px 4px; transform-origin: center calc(100% - 37px); z-index: 5; }
+        .minute-hand { width: 12px; height: 307px; bottom: calc(50% - 45px); margin-left: -6px; border-radius: 6px 6px 3px 3px; transform-origin: center calc(100% - 45px); z-index: 6; }
+        .second-hand { width: 6px; height: 329px; bottom: calc(50% - 52px); margin-left: -3px; border-radius: 3px 3px 2px 2px; transform-origin: center calc(100% - 52px); z-index: 7; }
+        .info-panel-left { position: absolute; left: 30px; bottom: 30px; color: rgba(255, 255, 255, 0.6); font-size: 1rem; user-select: none; background: rgba(255, 255, 255, 0.05); padding: 10px 15px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .audio-control { position: absolute; right: 30px; bottom: 30px; display: flex; align-items: center; gap: 10px; color: #ffffff; font-size: 1.2rem; user-select: none; cursor: pointer; background: rgba(255, 255, 255, 0.05); padding: 10px 15px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .audio-control input { cursor: pointer; width: 18px; height: 18px; accent-color: #ffffff; }
+    </style>
+</head>
+<body>
+    <div class="clock">
+        <div class="ticks-container" id="ticks"></div>
+        <div class="clock-text">TELEVIZIUNEA ROMÂNĂ</div>
+        <img src="logo.svg" class="clock-logo" alt="Logo TVR">
+        <div class="numbers-container" id="numbers"></div>
+        <div class="hand hour-hand" id="hour"></div>
+        <div class="hand minute-hand" id="minute"></div>
+        <div class="hand second-hand" id="second"></div>
+        <div class="center-nut"><div class="center-screw"></div></div>
+    </div>
+    <div class="info-panel-left">&copy; 0744388248</div>
+    <label class="audio-control"><span>Beep enable</span><input type="checkbox" id="beepToggle"></label>
+    <script>
+        (function(){
+            var _0x = [
+                '\x67\x65\x74\x45\x6c\x65\x6d\x65\x6e\x74\x42\x79\x49\x64','\x63\x68\x65\x63\x6b\x65\x64','\x41\x75\x64\x69\x6f\x43\x6f\x6e\x74\x65\x78\x74','\x77\x65\x62\x6b\x69\x74\x41\x75\x64\x69\x6f\x43\x6f\x6e\x74\x65\x78\x74','\x63\x72\x65\x61\x74\x65\x4f\x73\x63\x69\x6c\x6c\x61\x74\x6f\x72','\x63\x72\x65\x61\x74\x65\x47\x61\x69\x6e','\x74\x79\x70\x65','\x73\x69\x6e\x65','\x66\x72\x65\x71\x75\x65\x6e\x63\x79','\x73\x65\x74\x56\x61\x6c\x75\x65\x41\x74\x54\x69\x6d\x65','\x63\x75\x72\x72\x65\x6e\x74\x54\x69\x6d\x65','\x67\x61\x69\x6e','\x65\x78\x70\x6f\x6e\x65\x6e\x74\x69\x61\x6c\x52\x61\x6d\x70\x54\x6f\x56\x61\x6c\x75\x65\x41\x74\x54\x69\x6d\x65','\x63\x6f\x6e\x6e\x65\x63\x74','\x64\x65\x73\x74\x69\x6e\x61\x74\x69\x6f\x6e','\x73\x74\x61\x72\x74','\x73\x74\x6f\x70','\x74\x69\x63\x6b\x73','\x63\x72\x65\x61\x74\x65\x45\x6c\x65\x6d\x65\x6e\x74','\x64\x69\x76','\x63\x6c\x61\x73\x73\x4c\x69\x73\x74','\x61\x64\x64','\x74\x69\x63\x6b','\x68\x6f\x75\x72\x2d\x74\x69\x63\x6b','\x73\x74\x79\x6c\x65','\x74\x72\x61\x6e\x73\x66\x6f\x72\x6d','\x72\x6f\x74\x61\x74\x65\x28','\x64\x65\x67\x29','\x61\x70\x70\x65\x6e\x64\x43\x68\x69\x6c\x64','\x6e\x75\x6d\x62\x65\x72\x73','\x6e\x75\x6d\x62\x65\x72','\x69\x6e\x6e\x65\x72\x54\x65\x78\x74','\x50\x49','\x73\x69\x6e','\x63\x6f\x73','\x6c\x65\x66\x74','\x70\x78','\x74\x6f\x70','\x73\x65\x63\x6f\x6e\x64','\x6d\x69\x6e\x75\x74\x65','\x68\x6f\x75\x72','\x61\x64\x64\x45\x76\x65\x6e\x74\x4c\x69\x73\x74\x65\x6e\x65\x72','\x63\x6f\x6e\x74\x65\x78\x74\x6d\x65\x6e\x75','\x70\x72\x65\x76\x65\x6e\x74\x44\x65\x66\x61\x75\x6c\x74','\x6a\x65\x79\x64\x6f\x77\x6e','\x6a\x65\x79','\x46\x31\x32','\x63\x74\x72\x6c\x4b\x65\x79','\x73\x68\x69\x66\x74\x4b\x65\x79','\x49'
+            ];
+            var aC = null;
+            function pB() {
+                var toggle = document[_0x[0]]('beepToggle');
+                if (!toggle || !toggle[_0x[1]]) return;
+                try {
+                    if (!aC) { var AC = window[_0x[2]] || window[_0x[3]]; aC = new AC(); }
+                    var osc = aC[_0x[4]](), gain = aC[_0x[5]]();
+                    osc[_0x[6]] = _0x[7]; osc[_0x[8]][_0x[9]](1000, aC[_0x[10]]); gain[_0x[11]][_0x[9]](0.15, aC[_0x[10]]);
+                    gain[_0x[11]][_0x[12]](0.001, aC[_0x[10]] + 0.15); osc[_0x[13]](gain); gain[_0x[13]](aC[_0x[14]]);
+                    osc[_0x[15]](); osc[_0x[16]](aC[_0x[10]] + 0.15);
+                } catch (e) {}
+            }
+            var tC = document[_0x[0]](_0x[17]);
+            for (var i = 0; i < 60; i++) {
+                var t = document[_0x[18]](_0x[19]); t[_0x[20]][_0x[21]](_0x[22]);
+                if (i % 5 === 0) t[_0x[20]][_0x[21]](_0x[23]);
+                t[_0x[24]][_0x[25]] = _0x[26] + (i * 6) + _0x[27]; tC[_0x[28]](t);
+            }
+            var nC = document[_0x[0]](_0x[29]), cR = 330;
+            for (var i = 1; i <= 12; i++) {
+                var nD = document[_0x[18]](_0x[19]); nD[_0x[20]][_0x[21]](_0x[30]); nD[_0x[31]] = i;
+                var ang = (i * 30 * Math[_0x[32]]) / 180, x = 375 + cR * Math[_0x[33]](ang) - 50, y = 375 - cR * Math[_0x[34]](ang) - 50;
+                nD[_0x[24]][_0x[35]] = x + _0x[36]; nD[_0x[24]][_0x[37]] = y + _0x[36]; nC[_0x[28]](nD);
+            }
+            var lS = -1;
+            function uC() {
+                var now = new Date(), s = now.getSeconds(), m = now.getMinutes(), h = now.getHours();
+                var sD = (s * 6), mD = (m * 6) + (s * 0.1), hD = ((h % 12) * 30) + (m * 0.5);
+                document[_0x[0]](_0x[38])[_0x[24]][_0x[25]] = _0x[26] + sD + _0x[27];
+                document[_0x[0]](_0x[39])[_0x[24]][_0x[25]] = _0x[26] + mD + _0x[27];
+                document[_0x[0]](_0x[40])[_0x[24]][_0x[25]] = _0x[26] + hD + _0x[27];
+                if (s !== lS) { lS = s; if (s >= 55 || s === 0) { pB(); } }
+            }
+            setInterval(uC, 100); uC();
+            window[_0x[41]](_0x[42], function(e) { e[_0x[43]](); });
+            window[_0x[41]](_0x[44], function(e) { if (e[_0x[45]] === _0x[46] || (e[_0x[47]] && e[_0x[48]] && e[_0x[49]] === 'I')) e[_0x[43]](); });
+        })();
+    </script>
+</body>
+</html>
